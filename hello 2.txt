@@ -1,0 +1,57 @@
+console.log("Script loaded");
+let cash = 5000;
+let portfolio = {};
+
+let stocks = {
+  ROB:{price:100, vol:8, ai:3},
+  BLOX:{price:350, vol:15, ai:6},
+  LUA:{price:60, vol:5, ai:2}
+};
+
+function updateMarket(){
+  for(let s in stocks){
+    let ai = rand(-stocks[s].ai, stocks[s].ai);
+    let vol = rand(-stocks[s].vol, stocks[s].vol);
+
+    if(Math.random()<0.03) vol -= rand(20,40); // crash
+    if(Math.random()<0.04) vol += rand(15,30); // pump
+
+    stocks[s].price = Math.max(1, stocks[s].price + ai + vol);
+  }
+  render();
+}
+
+function buy(name){
+  let price = stocks[name].price;
+  if(cash >= price){
+    cash -= price;
+    portfolio[name] = (portfolio[name]||0)+1;
+  }
+}
+
+function sell(name){
+  if(portfolio[name]>0){
+    portfolio[name]--;
+    cash += stocks[name].price;
+  }
+}
+
+function render(){
+  document.getElementById("cash").innerText = cash;
+  let m = document.getElementById("market");
+  m.innerHTML = "";
+  for(let s in stocks){
+    m.innerHTML += `
+      <div class="stock">
+        <b>${s}</b> $${stocks[s].price}<br>
+        Owned: ${portfolio[s]||0}<br>
+        <button onclick="buy('${s}')">Buy</button>
+        <button onclick="sell('${s}')">Sell</button>
+      </div>`;
+  }
+}
+
+function rand(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+setInterval(updateMarket,2000);
+render();

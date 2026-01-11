@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Stock Broker</title>
+<style>
+body { background:#0b0b0b; color:white; font-family:Arial; }
+.stock { background:#1a1a1a; padding:15px; margin:10px; border-radius:10px; }
+button { background:#333; color:white; padding:5px; }
+</style>
+</head>
+<body>
+
+<h1>📉 HARD AI STOCK MARKET</h1>
+<h2>Cash: $<span id="cash">5000</span></h2>
+
+<div id="market"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
